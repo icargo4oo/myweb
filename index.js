@@ -1,6 +1,7 @@
 const { Client, Intents } = require('discord.js');
 const express = require('express');
 const path = require('path');
+require('dotenv').config();  // تأكد من تحميل البيئة أولاً
 
 const client = new Client({
     intents: [
@@ -23,57 +24,42 @@ client.once('ready', () => {
     ];
 
     setInterval(() => {
-        client.user.setActivity(status[Math.floor(Math.random() * status.length)], { type: ActivityType.PLAYING });
+        client.user.setActivity(status[Math.floor(Math.random() * status.length)], { type: 'PLAYING' });
     }, 10000);
 });
 
-
-// web ---------------------------------
+// Web ---------------------------------
 
 const app = express();
+const port = process.env.PORT || 3000;  // تأكد من تعيين المنفذ
 
-const webDirectory = path.join(__dirname, 'web');
-
-app.use(express.static(webDirectory));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(webDirectory, 'index.html'));
+    res.render('index', { text: 'Home Page' });
 });
 
 app.get('/shop', (req, res) => {
-    res.sendFile(path.join(webDirectory, 'shop.html'));
+    res.render('shop', { text: 'Shop Page' });
 });
 
-app.get('/profile', (req, res) => {
-    res.sendFile(path.join(webDirectory, 'inf.html'));
+app.get('/login', (req, res) => {
+    res.render('login', { text: 'Login Page' });
 });
 
 app.get('/logout', (req, res) => {
-    res.sendFile(path.join(webDirectory, 'logout.html'));
+    res.render('logout', { text: 'Logout Page' });
 });
 
-app.use(express.json());
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+app.listen(port, () => {
+    console.log(`🌐 Server is running on port ${port}`);
 });
 
 // Main Bot ---------------------------------
-require("dotenv").config();
 
-// anti error
-process.on("unhandledRejection", error => {
-    return console.log(error)
-});
-process.on("unhandledRejection", error => {
-    return
-});
-process.on("unhandledRejection", error => {
-    return
+process.on('unhandledRejection', error => {
+    console.error('Unhandled Rejection:', error);
 });
 
-client.login(process.env.token)
-
-// ------------------------------------------------------------------
+client.login(process.env.token);
