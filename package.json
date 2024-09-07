@@ -1,0 +1,22 @@
+{
+  "name": "milan-services",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/voice": "^0.17.0",
+    "@napi-rs/canvas": "^0.1.52",
+    "ascii-table": "^0.0.9",
+    "discord.js": "^13.17.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "fs": "^0.0.1-security",
+    "pro.db": "^3.0.8",
+    "probot-tax": "^1.0.3"
+  }
+}

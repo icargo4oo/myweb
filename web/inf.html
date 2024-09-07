@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="The Best shop in the weeeeeeeeeeeeeeeeeerld">
+
+	<!-- title -->
+	<title>Infinite.Services - Main</title>
+
+	<!-- favicon -->
+	<link rel="shortcut icon" type="image/png" class="main-img" href="assets/img/favicon.png">
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="assets/css/all.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+		integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" /> <!-- bootstrap -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<!-- owl carousel -->
+	<link rel="stylesheet" href="assets/css/owl.carousel.css">
+	<!-- magnific popup -->
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<!-- animate css -->
+	<link rel="stylesheet" href="assets/css/animate.css">
+	<!-- mean menu css -->
+	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
+	<!-- main style -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<!-- responsive -->
+	<link rel="stylesheet" href="assets/css/responsive.css">
+	<!-- STYLES -->
+	<link rel="stylesheet" href="assets/css/soso.css">
+</head>
+
+<body>
+
+	<!--PreLoader-->
+	<div class="loader">
+		<div class="loader-inner">
+			<div class="circle"></div>
+		</div>
+	</div>
+	<!--PreLoader Ends-->
+
+	<!-- header -->
+	<div class="top-header-area" id="sticker">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 text-center">
+					<div class="main-menu-wrap">
+						<!-- logo -->
+						<div class="site-logo">
+							<a href="index.html">
+								<img src="assets/img/logo.png" alt="">
+							</a>
+						</div>
+						<!-- logo -->
+
+						<!-- menu start -->
+						<nav class="main-menu">
+							<ul>
+								<li>
+									<div class="header-icons">
+								<li>
+									<a class="shopping-cart"><i class="fas fa-user"></i>
+										<i class="fas fa-chevron-down"></i></a>
+									<ul class="sub-menu">
+										<li><a href="/wallet">Wallet</a></li>
+										<li><a href="cart.html">Cart</a></li>
+										<li><a href="/shop">Shop</a></li>
+										<li><a href="/logout" id="logoutButton"><i class="fas fa-sign-out-alt"></i> LogOut....</a></li>
+									</ul>
+								</li>
+					</div>
+					</li>
+					</ul>
+					</nav>
+					<div class="mobile-menu"></div>
+					<!-- menu end -->
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<!-- end header -->
+
+	<div id="editBioModal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<h3>Edit Profile | beta</h3>
+			<div class="modal-body">
+				<input type="text" name="text" id="bioInput" class="input" placeholder="Edit Bio">
+			</div>
+			<div class="saveBio" id="saveBio">Save</div>
+		</div>
+	</div>
+
+
+	<!-- hero area -->
+	<div class="card">
+		<div class="editbio" id="editbio"><i class="fa-solid fa-pen"></i></div>
+		<div class="coco">
+			<span></span>
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<img id="userAvatar" src="" alt="User Avatar" style="width: 100px; height: 100px; border-radius: 50%;">
+		<div class="email-name">
+			<span class="text discord-username"></span>
+			<span class="text email"></span>
+		</div>
+		<br>
+		<div class="hrr"></div>
+		<br>
+
+		<div class="main-container">
+			<div class="container01">
+				<div class="info">
+					<span><i class="fa-solid fa-book-bookmark"></i></span>
+					<div class="text-container">
+						<h4>About Me</h4>
+						<h6 id="aboutMe">Some additional info</h6>
+					</div>
+				</div>
+				<br><br><br><br>
+				<div class="info">
+					<span><i class="fa-solid fa-link"></i></span>
+					<div class="text-container">
+						<h4>Uptimes</h4>
+						<h6>Some additional info</h6>
+					</div>
+				</div>
+			</div>
+			<br>
+			<br>
+			<br>
+			<div class="container02">
+				<div class="info">
+					<span><i class="fa-solid fa-id-card"></i></span>
+					<div class="text-container">
+						<h4>User Id</h4>
+						<h6 id="userId"></h6>
+					</div>
+				</div>
+				<br><br><br><br>
+				<div class="info">
+					<span><i class="fa-solid fa-credit-card"></i></span>
+					<div class="text-container">
+						<h4>Credit</h4>
+						<h6>$0.00</h6>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- end hero area -->
+
+	<!-- jquery -->
+	<script src="assets/js/jquery-1.11.3.min.js"></script>
+	<!-- bootstrap -->
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<!-- count down -->
+	<script src="assets/js/jquery.countdown.js"></script>
+	<!-- isotope -->
+	<script src="assets/js/jquery.isotope-3.0.6.min.js"></script>
+	<!-- waypoints -->
+	<script src="assets/js/waypoints.js"></script>
+	<!-- owl carousel -->
+	<script src="assets/js/owl.carousel.min.js"></script>
+	<!-- magnific popup -->
+	<script src="assets/js/jquery.magnific-popup.min.js"></script>
+	<!-- mean menu -->
+	<script src="assets/js/jquery.meanmenu.min.js"></script>
+	<!-- sticker js -->
+	<script src="assets/js/sticker.js"></script>
+	<!-- main js -->
+	<script src="assets/js/main.js"></script>
+
+	<script src="assets/js/shop.js"></script>
+
+	<script>
+		function setAvatarFromCookie() {
+			const avatarUrl = getCookie('avatar');
+			if (avatarUrl) {
+				document.getElementById('userAvatar').src = avatarUrl;
+			}
+		}
+
+		function getCookie(name) {
+			const nameEQ = name + "=";
+			const ca = document.cookie.split(';');
+			for (let i = 0; i < ca.length; i++) {
+				let c = ca[i].trim();
+				if (c.indexOf(nameEQ) === 0) {
+					return c.substring(nameEQ.length, c.length);
+				}
+			}
+			return null;
+		}
+
+		function setCookie(name, value, days) {
+			const d = new Date();
+			d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+			let expires = "expires=" + d.toUTCString();
+			document.cookie = name + "=" + value + ";" + expires + ";path=/";
+		}
+
+		document.addEventListener('DOMContentLoaded', () => {
+			setAvatarFromCookie();
+
+			const displayName = getCookie('displayName');
+			const email = getCookie('email');
+			const userId = getCookie('id'); // الحصول على الـ ID من الكوكيز
+			const aboutMe = getCookie('aboutMe'); // الحصول على البايو من الكوكيز
+
+			if (displayName) {
+				document.querySelector('.email-name .discord-username').textContent = displayName || 'Unknown';
+			}
+			if (email) {
+				document.querySelector('.email-name .email').textContent = email || 'Unknown';
+			}
+			if (userId) {
+				document.getElementById('userId').textContent = userId || 'Unknown'; // تعيين الـ ID في h6
+			}
+			if (aboutMe) {
+				document.getElementById('aboutMe').textContent = aboutMe; // تعيين البايو إذا كان موجوداً
+			} else {
+				document.getElementById('aboutMe').textContent = ''; // ترك البايو فارغاً إذا لم يكن موجوداً
+			}
+
+			const modal = document.getElementById('editBioModal');
+			const editBioButton = document.getElementById('editbio');
+			const closeModalButton = document.querySelector('.modal .close');
+			const saveBioButton = document.getElementById('saveBio');
+			const bioInput = document.getElementById('bioInput');
+			const aboutMeElement = document.getElementById('aboutMe');
+
+			editBioButton.addEventListener('click', () => {
+				modal.style.display = 'block';
+				bioInput.value = aboutMeElement.textContent.trim(); // Pre-fill input with current bio
+			});
+
+			closeModalButton.addEventListener('click', () => {
+				modal.style.display = 'none';
+			});
+
+			window.addEventListener('click', (event) => {
+				if (event.target === modal) {
+					modal.style.display = 'none';
+				}
+			});
+
+			saveBioButton.addEventListener('click', () => {
+				const newBio = bioInput.value.trim();
+				if (newBio) {
+					aboutMeElement.textContent = newBio;
+					setCookie('aboutMe', newBio, 365);
+				} else {
+					aboutMeElement.textContent = '';
+					setCookie('aboutMe', '', 365);
+				}
+				modal.style.display = 'none';
+			});
+		});
+	</script>
+</body>
+
+</html>
