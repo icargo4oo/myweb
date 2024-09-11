@@ -105,14 +105,14 @@
   
   <script>
     document.getElementById('googleButton').addEventListener('click', function() {
-        const url = "https://infiniteservices.glitch.me/oauth2/callback"; // تأكد من صحة عنوان URL هنا
+        const url = "https://infiniteservices.up.railway.app/oauth2/callback"; // تأكد من صحة عنوان URL هنا
         const clientId = "442938317970-4l17q120jb648fcmrmajctu9ee23etrr.apps.googleusercontent.com";
         window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&response_type=token&scope=profile email&redirect_uri=${encodeURIComponent(url)}`;
     });
 
     
     document.getElementById('discordButton').addEventListener('click', function() {
-        window.location.href = 'https://discord.com/oauth2/authorize?client_id=1281168143720644670&response_type=code&redirect_uri=https%3A%2F%2Finfiniteservices.glitch.me%2F&scope=identify+email';
+        window.location.href = 'https://discord.com/oauth2/authorize?client_id=1281168143720644670&response_type=code&redirect_uri=https%3A%2F%2Finfiniteservices.up.railway.app%2F&scope=identify+email';
     });
   </script>
 </body>
