@@ -1,65 +1,115 @@
-const { Client, Intents } = require('discord.js');
 const express = require('express');
 const path = require('path');
-require('dotenv').config();  // تأكد من تحميل البيئة أولاً
+const indexRouter = require('./routes/index');
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+require("dotenv").config();
+const cors = require("cors");
 
-const client = new Client({
-    intents: [
-        Intents.FLAGS.GUILDS,
-        Intents.FLAGS.GUILD_MESSAGES,
-        Intents.FLAGS.MESSAGE_CONTENT,
-        Intents.FLAGS.GUILD_MEMBERS,
-        Intents.FLAGS.GUILD_MESSAGE_REACTIONS
-    ],
-});
-
-client.once('ready', () => {
-    console.log(`✅ : Logged in as ${client.user.tag}`);
-
-    let status = [
-        `#CMV_3MK`,
-        `Hi There`,
-        `discord.gg/TGjv5QSepP`,
-        `Version: 1.0.0`
-    ];
-
-    setInterval(() => {
-        client.user.setActivity(status[Math.floor(Math.random() * status.length)], { type: 'PLAYING' });
-    }, 10000);
-});
-
-// Web ---------------------------------
 
 const app = express();
-const port = process.env.PORT || 3000;  // تأكد من تعيين المنفذ
+const PORT = 3000;
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// Serve static files from the "public" directory
+app.use(express.json());
+app.use(cors());
+app.use(express.static((__dirname, 'assets')));
+app.use("/css", express.static(__dirname + "assets/css"));
+app.use("/img", express.static(__dirname + "assets/img"));
+app.use("/bootstrap", express.static(__dirname + "assets/bootstrap"));
+app.use("/webfonts", express.static(__dirname + "assets/webfonts"));
+app.use("/js", express.static(__dirname + "assets/js"));
+app.use("/scss", express.static(__dirname + "assets/scss"));
 
-app.get('/', (req, res) => {
-    res.render('index', { text: 'Home Page' });
+// Use the router for handling routes
+app.use('/', indexRouter);
+
+app.use('/shop', indexRouter);
+
+app.use('/profile', indexRouter);
+
+app.use('/logout', indexRouter);
+
+app.use('/checkout', indexRouter);
+
+app.use('/contact', indexRouter);
+
+app.use('/wallet', indexRouter);
+
+app.use('/oauth2/callback', indexRouter);
+
+app.post("/exchange-code", async (req, res) => {
+  const { code } = req.body;
+
+  try {
+    const response = await fetch("https://discord.com/api/oauth2/token", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        client_id: "1281168143720644670",
+        client_secret: "V6Bvw0m5iQLqm3VDWuY2E1U81vou4KYH",
+        grant_type: "authorization_code",
+        code: code,
+        redirect_uri: "https://infiniteservices.glitch.me/",
+        scope: "identify email",
+      }),
+    });
+
+    const tokenData = await response.json();
+
+    if (tokenData.error) {
+      throw new Error(tokenData.error_description);
+    }
+
+    const userResponse = await fetch("https://discord.com/api/v10/users/@me", {
+      headers: {
+        Authorization: `${tokenData.token_type} ${tokenData.access_token}`,
+      },
+    });
+
+    const userData = await userResponse.json();
+
+    res.json({
+      success: true,
+      id: userData.id,
+      avatar: `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`,
+      email: userData.email,
+      discordUsername: userData.username,
+      displayName: userData.global_name || userData.username,
+    });
+  } catch (error) {
+    console.error("Error exchanging code:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
-app.get('/shop', (req, res) => {
-    res.render('shop', { text: 'Shop Page' });
+app.post("/google-token", async (req, res) => {
+  const { id_token } = req.body;
+
+  try {
+    const response = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${id_token}`);
+    const userData = await response.json();
+
+    res.json({
+      success: true,
+      id: userData.sub,
+      avatar: userData.picture,
+      email: userData.email,
+      discordUsername: userData.name,
+      displayName: userData.name,
+    });
+  } catch (error) {
+    console.error("Error validating Google token:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
 
-app.get('/login', (req, res) => {
-    res.render('login', { text: 'Login Page' });
+// Catch-all route for handling 404 errors
+app.use((req, res, next) => {
+  res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
 });
 
-app.get('/logout', (req, res) => {
-    res.render('logout', { text: 'Logout Page' });
+app.listen(PORT, () => {
+  console.log(`🌐 Server is running on port ${PORT}`);
 });
-
-app.listen(port, () => {
-    console.log(`🌐 Server is running on port ${port}`);
-});
-
-// Main Bot ---------------------------------
-
-process.on('unhandledRejection', error => {
-    console.error('Unhandled Rejection:', error);
-});
-
-client.login(process.env.token);
