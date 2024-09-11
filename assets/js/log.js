@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // جزء المصادقة مع Discord
     document.getElementById('discordButton').addEventListener('click', function() {
-        window.location.href = 'https://discord.com/oauth2/authorize?client_id=1281168143720644670&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000&scope=identify+email';
+        window.location.href = 'https://discord.com/oauth2/authorize?client_id=1281168143720644670&response_type=code&redirect_uri=https%3A%2F%2Finfiniteservices.up.railway.app%2F&scope=identify+email';
     });
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 client_secret: '6wDhSRNxrnkfv2myJ-eisS5aymX9ehyR', // ضع هنا الـ client secret الخاص بتطبيقك
                 grant_type: 'authorization_code',
                 code: code,
-                redirect_uri: 'http://localhost:3000'
+                redirect_uri: 'https://infiniteservices.up.railway.app'
             })
         })
         .then(response => response.json())
