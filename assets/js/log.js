@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const signupForm = document.getElementById('signupForm');
     const usernameInput = document.getElementById('username');
+      const userId = getCookie('id');
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
     const rememberMeCheckbox = document.getElementById('rememberMe');
@@ -14,6 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (savedUsername && savedEmail && savedPassword && rememberMe === 'true') {
         window.location.href = "/shop";
     }
+  
+
+    if (userId) {
+        window.location.href = "/shop";
+    }
+  
+
+
 
     signupForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -58,56 +67,44 @@ document.addEventListener('DOMContentLoaded', () => {
             eraseCookie('rememberMe');
             eraseCookie('id');
             eraseCookie('avatar');
-            eraseCookie('username');
             eraseCookie('displayName');
             eraseCookie('code');
             window.location.href = "/";
         });
     }
 
-    // جزء المصادقة مع Discord
     document.getElementById('discordButton').addEventListener('click', function() {
-        window.location.href = 'https://discord.com/oauth2/authorize?client_id=1281168143720644670&response_type=code&redirect_uri=https%3A%2F%2Finfiniteservices.up.railway.app%2F&scope=identify+email';
+        window.location.href = 'https://discord.com/oauth2/authorize?client_id=1281168143720644670&response_type=code&redirect_uri=https%3A%2F%2Finfiniteservices.glitch.me%2F&scope=identify+email';
     });
 
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
 
     if (code) {
-        fetch('https://discord.com/api/oauth2/token', {
+        fetch('https://infiniteservices.glitch.me/exchange-code', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Type': 'application/json'
             },
-            body: new URLSearchParams({
-                client_id: '1281168143720644670',
-                client_secret: '6wDhSRNxrnkfv2myJ-eisS5aymX9ehyR', // ضع هنا الـ client secret الخاص بتطبيقك
-                grant_type: 'authorization_code',
-                code: code,
-                redirect_uri: 'https://infiniteservices.up.railway.app'
-            })
+            body: JSON.stringify({ code: code })
         })
         .then(response => response.json())
-        .then(tokenData => {
-            return fetch('https://discord.com/api/v10/users/@me', {
-                headers: {
-                    'Authorization': `${tokenData.token_type} ${tokenData.access_token}`,
-                },
-            });
-        })
-        .then(response => response.json())
-        .then(userData => {
-            setCookie('id', userData.id, 365);
-            setCookie('avatar', `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`, 365);
-            setCookie('email', userData.email, 365);
-            setCookie('username', `${userData.username}`, 365);
-            setCookie('displayName', userData.global_name || userData.username, 365);
-            setCookie('code', code, 365);
+        .then(data => {
+            if (data.success) {
+                setCookie('id', data.id, 365);
+                setCookie('avatar', data.avatar, 365);
+                setCookie('email', data.email, 365);
+                setCookie('username', data.discordUsername, 365);
+                setCookie('displayName', data.displayName, 365);
+                setCookie('code', code, 365);
 
-            window.location.href = "/shop";
+                window.location.href = "/shop";
+            } else {
+                console.error('Error during Discord OAuth process:', data.error);
+            }
         })
         .catch(err => {
-            console.error('Error during Discord OAuth process:', err);
+            console.error('Error during the fetch process:', err);
         });
     }
 
@@ -132,5 +129,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function eraseCookie(name) {
         document.cookie = `${name}=; Max-Age=-99999999; path=/`;
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.hash.substring(1));
+    const accessToken = urlParams.get('access_token');
+
+    if (accessToken) {
+        fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data) {
+                setCookie('id', data.sub, 365);
+                setCookie('avatar', data.picture, 365);
+                setCookie('email', data.email, 365);
+                setCookie('username', data.name, 365);
+                setCookie('displayName', data.name, 365);
+                setCookie('code', accessToken, 365);
+
+                window.location.href = "/shop";
+            } else {
+                console.error('Error fetching user data:', data);
+            }
+        })
+        .catch(err => {
+            console.error('Error during the fetch process:', err);
+        });
+    }
+
+    function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expires = "expires=" + date.toUTCString();
+        document.cookie = `${name}=${value}; ${expires}; path=/`;
     }
 });

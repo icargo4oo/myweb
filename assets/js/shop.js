@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
         eraseCookie('email');
         eraseCookie('password');
         eraseCookie('rememberMe');
-        eraseCookie('id');
         eraseCookie('avatar');
+        eraseCookie('id');
         eraseCookie('username');
         eraseCookie('displayName');
         eraseCookie('code');
