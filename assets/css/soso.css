@@ -206,6 +206,7 @@ body:after {
 .info h6 {
     color: #ffffff;
     margin-top: 5px;
+    z-index: 1;
 }
 
 .editbio {
