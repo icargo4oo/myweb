@@ -9,11 +9,23 @@
   <title>Infinite.Services - Main</title>
 
   <!-- favicon -->
-  <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
-  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="shortcut icon" type="image/png" href="/img/favicon.png" />
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- sign in with google -->
+
+  
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <meta name="google-site-verification" content="f7sGU63wGP0AInyox_dKEI9z0F-WfysEojgEVtNuRpg" />
 </head>
 <body>
+  
+  <!-- Cookie Consent Banner -->
+  <div id="cookieConsentBanner" style="display: none; position: fixed; bottom: 0; width: 100%; background: #000; color: #fff; text-align: center; padding: 10px;">
+      <p>This website uses cookies to ensure you get the best experience on our website. <a href="#" id="cookiePolicyLink" style="color: #0d6efd;">Learn more</a></p>
+      <button id="acceptCookiesButton" style="background: #0d6efd; color: #fff; border: none; padding: 10px 20px; cursor: pointer;">Accept Cookies</button>
+  </div>
+
+  
   <div class="wrapper" id="signupContainer">
     <form id="signupForm">
       <h1 id="formTitle">Login</h1>
@@ -32,7 +44,7 @@
       <div class="remember-forgot">
         <label for="rememberMe"><input type="checkbox" id="rememberMe">Remember Me</label>
       </div>
-      <button class="btn" type="submit" id="submitButton">Login</button>
+      <button class="btn" type="submit">Login</button>
       <div class="register-link">
         <p><span id="logintext">------------------------------ OR ------------------------------</span></p>
       </div>
@@ -54,57 +66,54 @@
       </svg>
       Continue with Discord
     </button>
+    <br>
+    <button class="button google" id="googleButton" data-onsuccess="onSignIn">
+      <svg
+        viewBox="0 0 256 262"
+        preserveAspectRatio="xMidYMid"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
+          fill="#4285F4"
+        ></path>
+        <path
+          d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
+          fill="#34A853"
+        ></path>
+        <path
+          d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
+          fill="#FBBC05"
+        ></path>
+        <path
+          d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
+          fill="#EB4335"
+        ></path>
+      </svg>
+      Continue with Google
+    </button>
+
   </div>
   
   <div id="contentContainer">
     <!-- سيتم إدراج محتوى الحساب هنا بعد تسجيل الدخول -->
   </div>
 
-  <script src="assets/js/log.js"></script>
+  <script src="/js/log.js"></script>
+  
+  
   
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // تحقق إذا كان هناك كوكيز (على سبيل المثال، تحقق من كوكيز `id` أو أي كوكيز أخرى)
-      const userId = getCookie('id'); // أو أي كوكيز تريد التحقق منها
-  
-      if (userId) {
-        // إذا كانت الكوكيز موجودة، قم بتحويل المستخدم إلى /shop
-        window.location.href = '/shop';
-      }
-  
-      document.getElementById('loginLink').addEventListener('click', function(event) {
-        event.preventDefault();
-  
-        const isLogin = document.getElementById('formTitle').textContent === 'Login';
-  
-        // Toggle between Login and Sign Up
-        if (isLogin) {
-          // تحويل إلى "Sign Up"
-          document.getElementById('formTitle').textContent = 'Sign Up';
-          document.getElementById('usernameBox').style.display = 'block';
-          document.getElementById('submitButton').textContent = 'Create Account';
-          document.getElementById('loginLink').textContent = 'Login';
-        } else {
-          // تحويل إلى "Login"
-          document.getElementById('formTitle').textContent = 'Login';
-          document.getElementById('usernameBox').style.display = 'none';
-          document.getElementById('submitButton').textContent = 'Login';
-          document.getElementById('loginLink').textContent = 'Sign Up';
-        }
-      });
+    document.getElementById('googleButton').addEventListener('click', function() {
+        const url = "https://infiniteservices.glitch.me/oauth2/callback"; // تأكد من صحة عنوان URL هنا
+        const clientId = "442938317970-4l17q120jb648fcmrmajctu9ee23etrr.apps.googleusercontent.com";
+        window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&response_type=token&scope=profile email&redirect_uri=${encodeURIComponent(url)}`;
     });
-  
-    function getCookie(name) {
-      const nameEQ = name + "=";
-      const ca = document.cookie.split(';');
-      for (let i = 0; i < ca.length; i++) {
-        let c = ca[i].trim();
-        if (c.indexOf(nameEQ) === 0) {
-          return c.substring(nameEQ.length, c.length);
-        }
-      }
-      return null;
-    }
-  </script>  
+
+    
+    document.getElementById('discordButton').addEventListener('click', function() {
+        window.location.href = 'https://discord.com/oauth2/authorize?client_id=1281168143720644670&response_type=code&redirect_uri=https%3A%2F%2Finfiniteservices.glitch.me%2F&scope=identify+email';
+    });
+  </script>
 </body>
 </html>
